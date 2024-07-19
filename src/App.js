@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CssBaseline, Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-
+import summaryApi from './common/index';
+import Context from './context';
 function App() {
+  const fetchUserDetails  = async ()=>{
+    const dataResponse = await fetch(summaryApi.current_user.url,{
+      method: summaryApi.current_user.method,
+      credentials:'include',//This ensures cookies are sent with cross-origin requests
+    })
+    const  dataApi = await dataResponse.json();
+    console.log("user details",dataApi)
+  }
+
+  useEffect(()=>{
+    fetchUserDetails();
+  },[])
+
   return (
+    <Context.Provider value={{ fetchUserDetails }}>
     <Box
       sx={{
         display: 'flex',
@@ -25,6 +39,7 @@ function App() {
       </Box>
       <Footer />
     </Box>
+    </Context.Provider>
   );
 }
 

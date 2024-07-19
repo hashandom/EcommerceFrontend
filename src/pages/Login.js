@@ -14,19 +14,25 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link  } from 'react-router-dom'
 import loginIcon from '../assest/signin.gif'
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 import Paper from '@mui/material/Paper';
-
-
+import summaryApi from '../common';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import Context from '../context/index';
 
 const defaultTheme = createTheme();
 
 
 const Login = ()=> {
 
+  const navigate = useNavigate();
+  const {fetchUserDetails}  = useContext(Context);
+
+  
   // password state change//////////////////////////////////////
   const [showPassword , setShowPassword] = useState(true)
   // password state change///////////////////////////////////
@@ -53,9 +59,31 @@ const Login = ()=> {
 
 
   // form handle submit
-  const handleSubmit=(e)=>{
+  const handleSubmit=async (e)=>{
     e.preventDefault();
-  };
+    const response = await fetch(summaryApi.login.url, {
+      method: summaryApi.login.method,
+      credentials:'include',//This ensures cookies are sent with cross-origin requests
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    const dataResponse = await response.json();
+    console.log("userapi data", dataResponse)
+    if(dataResponse.sucess){
+      toast.success(dataResponse.message)
+      navigate("/home");
+      fetchUserDetails();
+    }else if(dataResponse.error){
+      toast.error(dataResponse.message)
+    }
+   
+  }
+  
+
+
   // form handle submit
 
   return (
