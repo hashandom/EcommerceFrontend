@@ -16,7 +16,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 import Paper from '@mui/material/Paper';
-import ImageToBase64 from '../helper/ImageToBase64';
+import Resizer from 'react-image-file-resizer';
 import summaryApi from '../common';
 import { toast } from 'react-toastify';
 
@@ -25,7 +25,6 @@ const defaultTheme = createTheme();
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const [data, setData] = useState({
     name: '',
     email: '',
@@ -44,13 +43,27 @@ const SignUp = () => {
     }));
   };
 
-  const handleUploadImage = async (e) => {
-    const file = e.target.files[0];
-    const imagePic = await ImageToBase64(file);
-    setData((prevData) => ({
-      ...prevData,
-      profilepic: imagePic,
-    }));
+  // Handle image upload and resize
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      Resizer.imageFileResizer(
+        file,
+        300, // max width
+        300, // max height
+        'JPEG', // compress format
+        80, // quality
+        0, // rotation
+        (uri) => {
+          // Update the state with the base64 image
+          setData((prevData) => ({
+            ...prevData,
+            profilepic: uri,
+          }));
+        },
+        'base64' // output type
+      );
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -59,22 +72,27 @@ const SignUp = () => {
     if (data.password !== data.confirmpassword) {
       toast.error("Password and Confirm Password do not match");
     } else {
-      const response = await fetch(summaryApi.signUp.url, {
-        method: summaryApi.signUp.method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      try {
+        const response = await fetch(summaryApi.signUp.url, {
+          method: summaryApi.signUp.method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
 
-      const dataResponse = await response.json();
-      if(dataResponse.success){
-        toast.success(dataResponse.message)
-        navigate("/login");
-      }else if(dataResponse.error){
-        toast.error(dataResponse.message)
+        const dataResponse = await response.json();
+        if (dataResponse.success) {
+          toast.success(dataResponse.message);
+          navigate("/login");
+        } else if (dataResponse.error) {
+          toast.error(dataResponse.message);
+        }
+        console.log("userapi data", dataResponse);
+      } catch (error) {
+        toast.error("An error occurred during sign up. Please try again.");
+        console.error(error);
       }
-      console.log("userapi data", dataResponse)
     }
   };
 
@@ -102,7 +120,7 @@ const SignUp = () => {
                 type="file"
                 accept="image/*"
                 style={{ display: 'none' }}
-                onChange={handleUploadImage}
+                onChange={handleImageUpload}
               />
             </label>
 
@@ -132,6 +150,7 @@ const SignUp = () => {
                 name="email"
                 onChange={handleOnChange}
                 value={data.email}
+                type="email"
               />
               <TextField
                 margin="normal"
