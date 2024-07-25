@@ -25,12 +25,9 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
 }));
 
-
-
-
-
 const Header = () => {
     const [value, setValue] = useState(0);
+    const [anchorEl, setAnchorEl] = useState(null); // State for Menu anchor
     const dispatch = useDispatch();
     const user = useSelector(state => state?.user?.user);
     const navigate = useNavigate();
@@ -39,7 +36,6 @@ const Header = () => {
 
     const pages = ["Products", "Services", "Contact Us", "About Us"];
 
-    
     const handleLogout = async () => {
         try {
             const response = await fetch(SummaryApi.logout_user.url, {
@@ -50,7 +46,7 @@ const Header = () => {
             if (data.success) {
                 toast.success(data.message);
                 dispatch(setUserDetails(null));
-                navigate("/")
+                navigate("/");
             } else if (data.error) {
                 toast.error(data.message);
             }
@@ -59,9 +55,17 @@ const Header = () => {
         }
     };
 
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget); // Open the menu and set anchor
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null); // Close the menu
+        navigate('/admin-panel');
+    };
 
     return (
-        <AppBar sx={{ backgroundColor: "#063970", height:'100px' }}>
+        <AppBar sx={{ backgroundColor: "#063970", height: '80px' }}>
             <Toolbar>
                 {/* Logo */}
                 <Link to="/">
@@ -71,19 +75,29 @@ const Header = () => {
                 </Link>
 
                 {/* Responsive Management */}
-                {isMatch ? (
+                {isMatch ? ( 
                     <>
                         <Typography sx={{ fontSize: "1.5rem", paddingLeft: "10%" }}>SHOPEE</Typography>
                         <div>
-                        <Avatar 
-                            src={user?.profilepic || '/broken-image.jpg'}
-                            alt={user?.name || 'User Avatar'}
-                            sx={{ width: 25, height: 25, marginLeft: '400px' }}
-                        
-                        />
-                        <Menu>
-                            <menuitem>admin panel</menuitem>
-                        </Menu>
+                            <Avatar
+                                src={user?.profilepic || '/broken-image.jpg'}
+                                alt={user?.name || 'User Avatar'}
+                                sx={{ width: 25, height: 25, marginLeft: '400px' }}
+                                onClick={handleMenuClick} // Open the menu on Avatar click
+                            />
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleMenuClose}
+                                PaperProps={{
+                                    sx: {
+                                        width: '200px',
+                                        marginTop: '5px',
+                                    },
+                                }}
+                            >
+                                <MenuItem onClick={handleMenuClose}>Admin Panel</MenuItem>
+                            </Menu>
                         </div>
                         <HeaderDrawer />
                         <HeaderResponsiveIcons />
@@ -143,9 +157,23 @@ const Header = () => {
                                     <NotificationsIcon style={{ color: 'white' }} />
                                 </StyledBadge>
                             </IconButton>
-                            <Avatar 
-                                src={user?.profilepic || '/broken-image.jpg'} 
+                            <Avatar
+                                src={user?.profilepic || '/broken-image.jpg'}
+                                onClick={handleMenuClick} // Open the menu on Avatar click
                             />
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleMenuClose}
+                                PaperProps={{
+                                    sx: {
+                                        width: '200px',
+                                        marginTop: '5px',
+                                    },
+                                }}
+                            >
+                                <MenuItem onClick={handleMenuClose}>Admin Panel</MenuItem>
+                            </Menu>
                         </Stack>
 
                         {/* Auth Button */}
@@ -165,8 +193,6 @@ const Header = () => {
                     </>
                 )}
             </Toolbar>
-
-           
         </AppBar>
     );
 };
