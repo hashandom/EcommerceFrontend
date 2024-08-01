@@ -1,72 +1,72 @@
-import React, { useEffect } from 'react'
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
-import { Home, AccountCircle, Settings, ExitToApp } from '@mui/icons-material';
+import React from 'react';
+import { Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Avatar, Box } from '@mui/material';
+import { Home, AccountCircle, Settings } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
-import Avatar from '@mui/material/Avatar';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 const drawerWidth = 250;
 
 const AdminPanel = () => {
+  const user = useSelector(state => state?.user?.user);
 
-    const user = useSelector(state => state?.user?.user)
-    const navigate = useNavigate()
-
-
-return (
-    <Drawer
-      variant="permanent"
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        '& .MuiDrawer-paper': {
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <Drawer
+        variant="permanent"
+        sx={{
           width: drawerWidth,
-          height: 'calc(100vh - 400px)', // Adjust height as needed
-          boxSizing: 'border-box',
-          marginTop: "90px", // Adjust top margin if needed
-        },
-      }}
-    >
-      <div>
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            height: '50vh', // Adjust height if needed
+            boxSizing: 'border-box',
+            marginTop: "90px", // Adjust top margin if needed
+          },
+        }}
+      >
         <List>
-        <ListItem button >
-        <ListItemIcon>
-      {user?.profilepic ? (
-        <Avatar
-          src={user?.profilepic || '/broken-image.jpg'}
-          // Add any additional props or handlers here, like onClick for opening the menu
-        />
-      ) : (
-        <AccountCircle />
-      )}
-    </ListItemIcon>
-
+          <ListItem>
+            <ListItemIcon>
+              {user?.profilepic ? (
+                <Avatar src={user?.profilepic || '/broken-image.jpg'} />
+              ) : (
+                <AccountCircle />
+              )}
+            </ListItemIcon>
             <ListItemText primary={user?.name} />
+            <Typography variant="body2" color="textSecondary">
+              Role: {user?.role}
+            </Typography>
           </ListItem>
-          <ListItem button >
+
+          <ListItem button component={Link} to="all-users">
             <ListItemIcon>
               <Home />
             </ListItemIcon>
-            <ListItemText primary="Dashboard" />
+            <ListItemText primary="All Users" />
           </ListItem>
-          <ListItem button >
+
+          <ListItem button component={Link} to="all-products">
             <ListItemIcon>
               <Settings />
             </ListItemIcon>
-            <ListItemText primary="Settings" />
+            <ListItemText primary="All Products" />
           </ListItem>
         </List>
-        <Divider />
-        <List>
-          <ListItem button >
-            <ListItemIcon>
-              <ExitToApp />
-            </ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItem>
-        </List>
-      </div>
-    </Drawer>
+      </Drawer>
+
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          ml: `5px`, 
+          marginTop:'60px'// Margin left to fit the drawer width
+        }}
+      >
+        <Outlet />
+      </Box>
+    </Box>
   );
 };
 

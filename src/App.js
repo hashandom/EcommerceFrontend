@@ -22,7 +22,7 @@ function App() {
     if(dataApi.success){
       dispatch(setUserDetails(dataApi.data))
     }
-    console.log("user details",dataApi)
+    // console.log("user details",dataApi)
   }
 
   useEffect(()=>{
