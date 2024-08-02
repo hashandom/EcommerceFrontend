@@ -11,6 +11,7 @@ import SummaryApi from '../common/index';
 import { setUserDetails } from '../stores/userSlice';
 import HeaderDrawer from './HeaderDrawer';
 import HeaderResponsiveIcons from './HeaderResponsiveIcons';
+import ROLE from '../common/role';
 
 // Styled components
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -61,7 +62,7 @@ const Header = () => {
 
     const handleMenuClose = () => {
         setAnchorEl(null); // Close the menu
-        navigate('/admin-panel');
+        navigate('/admin-panel/all-products');
     };
 
     return (
@@ -75,16 +76,20 @@ const Header = () => {
                 </Link>
 
                 {/* Responsive Management */}
-                {isMatch ? ( 
+                {isMatch ? (
                     <>
                         <Typography sx={{ fontSize: "1.5rem", paddingLeft: "10%" }}>SHOPEE</Typography>
                         <div>
-                            <Avatar
-                                src={user?.profilepic || '/broken-image.jpg'}
-                                alt={user?.name || 'User Avatar'}
-                                sx={{ width: 25, height: 25, marginLeft: '400px' }}
-                                onClick={handleMenuClick} // Open the menu on Avatar click
-                            />
+                        {user?.id && user?.role === ROLE.ADMIN && (
+    <Avatar
+        src={user?.profilepic || '/broken-image.jpg'}
+        alt={user?.name || 'User Avatar'}
+        sx={{ width: 25, height: 25, marginLeft: '400px' }}
+        onClick={handleMenuClick} // Open the menu on Avatar click if the user is an admin
+    />
+)}
+
+                            
                             <Menu
                                 anchorEl={anchorEl}
                                 open={Boolean(anchorEl)}
@@ -96,7 +101,9 @@ const Header = () => {
                                     },
                                 }}
                             >
-                                <MenuItem onClick={handleMenuClose}>Admin Panel</MenuItem>
+                                {user?.role === ROLE.ADMIN && (
+                                    <MenuItem onClick={handleMenuClose}>Admin Panel</MenuItem>
+                                )}
                             </Menu>
                         </div>
                         <HeaderDrawer />
@@ -157,9 +164,17 @@ const Header = () => {
                                     <NotificationsIcon style={{ color: 'white' }} />
                                 </StyledBadge>
                             </IconButton>
+                            {
+                                user?.id &&(
+                                    <Avatar
+                                src={user?.profilepic || '/broken-image.jpg'}
+                                onClick={user?.role === ROLE.ADMIN ? handleMenuClick : undefined} // Open the menu on Avatar click if the user is an admin
+                            />
+                                )
+                            }
                             <Avatar
                                 src={user?.profilepic || '/broken-image.jpg'}
-                                onClick={handleMenuClick} // Open the menu on Avatar click
+                                onClick={user?.role === ROLE.ADMIN ? handleMenuClick : undefined} // Open the menu on Avatar click if the user is an admin
                             />
                             <Menu
                                 anchorEl={anchorEl}
@@ -172,7 +187,9 @@ const Header = () => {
                                     },
                                 }}
                             >
-                                <MenuItem onClick={handleMenuClose}>Admin Panel</MenuItem>
+                                {user?.role === ROLE.ADMIN && (
+                                    <MenuItem onClick={handleMenuClose}>Admin Panel</MenuItem>
+                                )}
                             </Menu>
                         </Stack>
 

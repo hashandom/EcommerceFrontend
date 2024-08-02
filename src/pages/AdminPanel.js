@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Avatar, Box } from '@mui/material';
 import { Home, AccountCircle, Settings } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
-import { Link, Outlet } from 'react-router-dom';
-
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import ROLE from '../common/role';
 const drawerWidth = 250;
 
 const AdminPanel = () => {
   const user = useSelector(state => state?.user?.user);
-
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (user?.role !== ROLE.ADMIN) {
+      navigate('/home');
+    }
+  }, [user, navigate]);
   return (
     <Box sx={{ display: 'flex' }}>
       <Drawer
