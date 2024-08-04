@@ -8,15 +8,18 @@ const AdminProductCard = ({ data, fetchdata }) => {
   const [editProduct, setEditProduct] = useState(false);
 
   return (
-    <Card sx={{ maxWidth: 345, backgroundColor: 'white', borderRadius: 5, position: 'relative' }}>
+    <Card sx={{ maxWidth: 250, height: 300, backgroundColor: 'white', borderRadius: 5, position: 'relative' }}>
       <CardMedia
         component="img"
-        height="5" // Adjusted height for better visibility
+        sx={{
+          height: 140, // Fixed height for the image
+          width: '100%', // Full width to match the Card
+          objectFit: 'cover', // Ensure the image covers the area without distortion
+        }}
         image={data?.productImage[0]}
         alt={data.productName}
-        sx={{ objectFit: 'cover' }}
       />
-      <CardContent>
+      <CardContent sx={{ height: 'calc(100% - 140px)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <Typography variant="h6" noWrap sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {data.productName}
         </Typography>
@@ -27,7 +30,7 @@ const AdminProductCard = ({ data, fetchdata }) => {
           <IconButton
             sx={{
               position: 'absolute',
-              bottom: 0,
+              bottom: 8,
               right: 8,
               backgroundColor: 'green',
               color: 'white',

@@ -7,22 +7,27 @@ import SignUp from '../pages/SignUp';
 import AdminPanel from '../pages/AdminPanel';
 import AllUsers from '../pages/AllUsers';
 import AllProducts from '../pages/AllProducts';
+import CategoryProduct from '../pages/CategoryProduct';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      { path: "/", element: <Home /> },
+     
+       { path: "", element: <Home/> },
+       { path: "/home", element: <Home/> },
       { path: "login", element: <Login /> },
       { path: "forgotpassword", element: <ForgotPassword /> },
       { path: "signup", element: <SignUp /> },
+      { path: "product-category/:categoryName", element: <CategoryProduct/> },
       {
         path: "admin-panel",
         element: <AdminPanel />,
         children: [
           { path: "all-users", element: <AllUsers /> },
           { path: "all-products", element: <AllProducts /> },
+          
         ]
       },
     ]

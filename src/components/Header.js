@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Button, TextField, Stack, Badge, Avatar, Tabs, Tab, Menu, MenuItem } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Button, TextField, Stack, Badge, Avatar, Tabs, Tab, Menu, MenuItem, Container } from '@mui/material';
 import { ShoppingCart as ShoppingCartIcon, Search as SearchIcon, Notifications as NotificationsIcon } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { useMediaQuery, useTheme } from '@mui/material';
@@ -35,7 +35,7 @@ const Header = () => {
     const theme = useTheme();
     const isMatch = useMediaQuery(theme.breakpoints.down('md'));
 
-    const pages = ["Products", "Services", "Contact Us", "About Us"];
+    
 
     const handleLogout = async () => {
         try {
@@ -66,71 +66,34 @@ const Header = () => {
     };
 
     return (
-        <AppBar sx={{ backgroundColor: "#063970", height: '80px' }}>
-            <Toolbar>
+        <AppBar sx={{ backgroundColor: "#F85606", height: '80px'}}>
+            <Toolbar >
+            
                 {/* Logo */}
                 <Link to="/">
                     <IconButton aria-label="cart">
                         <ShoppingCartIcon style={{ color: 'white' }} />
                     </IconButton>
+                    <Typography>
+                        BuyMe
+                    </Typography>
                 </Link>
 
                 {/* Responsive Management */}
-                {isMatch ? (
-                    <>
-                        <Typography sx={{ fontSize: "1.5rem", paddingLeft: "10%" }}>SHOPEE</Typography>
-                        <div>
-                        {user?.id && user?.role === ROLE.ADMIN && (
-    <Avatar
-        src={user?.profilepic || '/broken-image.jpg'}
-        alt={user?.name || 'User Avatar'}
-        sx={{ width: 25, height: 25, marginLeft: '400px' }}
-        onClick={handleMenuClick} // Open the menu on Avatar click if the user is an admin
-    />
-)}
-
-                            
-                            <Menu
-                                anchorEl={anchorEl}
-                                open={Boolean(anchorEl)}
-                                onClose={handleMenuClose}
-                                PaperProps={{
-                                    sx: {
-                                        width: '200px',
-                                        marginTop: '5px',
-                                    },
-                                }}
-                            >
-                                {user?.role === ROLE.ADMIN && (
-                                    <MenuItem onClick={handleMenuClose}>Admin Panel</MenuItem>
-                                )}
-                            </Menu>
-                        </div>
-                        <HeaderDrawer />
-                        <HeaderResponsiveIcons />
-                    </>
-                ) : (
+                 
                     <>
                         {/* Navigation Tabs */}
-                        <Tabs
-                            textColor="inherit"
-                            onChange={(e, val) => setValue(val)}
-                            indicatorColor="secondary"
-                            value={value}
-                        >
-                            {pages.map((page, index) => (
-                                <Tab key={index} label={page} />
-                            ))}
-                        </Tabs>
+                       
 
                         {/* Search Component */}
                         <TextField
                             sx={{
+                                
                                 margin: '10px',
-                                marginLeft: '10px',
-                                width: '500px',
+                                marginLeft: '200px',
+                                width: '4000px',
                                 borderRadius: '30px',
-                                background: '#333',
+                                background: 'white',
                                 '& .MuiOutlinedInput-root': {
                                     '& fieldset': {
                                         borderColor: '#555',
@@ -145,25 +108,22 @@ const Header = () => {
                                 },
                             }}
                             variant='outlined'
-                            placeholder='Search .....'
+                            placeholder='Search in BuyMe .....'
                             InputProps={{
-                                startAdornment: <SearchIcon style={{ color: 'white', marginLeft: '10px' }} />,
-                                style: { color: 'white' },
+                                startAdornment: <SearchIcon style={{ color: 'black', marginLeft: '10px' }} />,
+                                style: { color: 'black' },
                             }}
                         />
-
+            
                         {/* Badge Icons */}
-                        <Stack direction={'row'} spacing={3} sx={{ marginLeft: '50px' }}>
+                        <Container sx={{display: 'flex',flexDirection:'row',justifyContent:"end",gap:2}}>
+                        
                             <IconButton aria-label="cart">
-                                <StyledBadge badgeContent={4} color="secondary">
+                                <StyledBadge badgeContent={0} color="secondary">
                                     <ShoppingCartIcon style={{ color: 'white' }} />
                                 </StyledBadge>
                             </IconButton>
-                            <IconButton aria-label="notifications">
-                                <StyledBadge badgeContent={4} color="secondary">
-                                    <NotificationsIcon style={{ color: 'white' }} />
-                                </StyledBadge>
-                            </IconButton>
+                           
                             {
                                 user?.id &&(
                                     <Avatar
@@ -191,7 +151,7 @@ const Header = () => {
                                     <MenuItem onClick={handleMenuClose}>Admin Panel</MenuItem>
                                 )}
                             </Menu>
-                        </Stack>
+                    
 
                         {/* Auth Button */}
                         <div>
@@ -207,8 +167,9 @@ const Header = () => {
                                 </Link>
                             )}
                         </div>
+                        </Container>
                     </>
-                )}
+                
             </Toolbar>
         </AppBar>
     );

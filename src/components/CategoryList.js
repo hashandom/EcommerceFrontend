@@ -25,7 +25,7 @@ const CategoryList = () => {
     }, []);
 
     return (
-        <Container>
+        <Container sx={{marginTop: 10}}>
             <Grid container spacing={2} justifyContent="center">
                 {loading ? (
                     Array.from(new Array(13)).map((_, index) => (
@@ -38,7 +38,7 @@ const CategoryList = () => {
                 ) : (
                     categoryProduct.map((product) => (
                         <Grid item xs={4} sm={3} md={2} key={product?.category}>
-                            <Link to={`/product-category?category=${product?.category}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Link to={`/product-category/${product?.category}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                 <Paper elevation={3} style={{ padding: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
                                     <img
                                         src={product?.productImage[0]}

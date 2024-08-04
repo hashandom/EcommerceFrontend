@@ -33,7 +33,7 @@ const AllProducts = () => {
           position: 'sticky',
           top: 0,
           zIndex: 10, // Ensure the sticky section is above other content
-          backgroundColor: 'yellow',
+          backgroundColor: 'white',
           padding: '10px',
           display: 'flex',
           flexDirection: 'row',
@@ -47,7 +47,7 @@ const AllProducts = () => {
         </Button>
       </Container>
       {openUploadProduct && <UploadProduct onClose={() => setOpenUploadProduct(false)} open={openUploadProduct} fetchdata={fetchAllProduct} />}
-      <Container sx={{ mt: 2, maxHeight: 'calc(100vh - 70px)', overflowY: 'auto', padding: '10px', backgroundColor:"red" }}>
+      <Container sx={{ mt: 2, maxHeight: 'calc(100vh - 70px)', overflowY: 'auto', padding: '10px', backgroundColor:"#E0F6FF" }}>
         <Container sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 2 }}>
           {allProduct.map((product, index) => (
             <AdminProductCard data={product} key={index + "allProducts"} fetchdata={fetchAllProduct} />

@@ -74,7 +74,7 @@ const Login = ()=> {
     console.log("userapi data", dataResponse)
     if(dataResponse.sucess){
       toast.success(dataResponse.message)
-      navigate("/home");
+      navigate("/");
       fetchUserDetails();
     }else if(dataResponse.error){
       toast.error(dataResponse.message)
