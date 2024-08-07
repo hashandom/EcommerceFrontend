@@ -42,7 +42,7 @@ function App() {
     
       <Header />
       <ToastContainer/>
-      <Box component="main" sx={{ flexGrow: 1, py: 2 }}>
+      <Box component="main" sx={{ flexGrow: 1, py: 2 , paddingTop:2}}>
         <Outlet />
       </Box>
       <Footer />

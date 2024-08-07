@@ -66,7 +66,7 @@ const Header = () => {
     };
 
     return (
-        <AppBar sx={{ backgroundColor: "#F85606", height: '80px'}}>
+        <AppBar sx={{ backgroundColor: "#F85606", height: '80px', position:"fixed", width:"full"}}>
             <Toolbar >
             
                 {/* Logo */}
