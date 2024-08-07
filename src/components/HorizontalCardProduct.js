@@ -3,6 +3,7 @@ import fetchCategoryWiseProduct from '../helper/fetchCategoryWiseProduct';
 import displayLKRCurrency from '../helper/displayCurrency';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
+import addToCart from '../helper/addToCart';
 
 const HorizontalCardProduct = ({ category, heading }) => {
     const [data, setData] = useState([]);
@@ -98,7 +99,9 @@ const HorizontalCardProduct = ({ category, heading }) => {
                 <p className='text-red-600 font-medium'>{displayLKRCurrency(product?.sellingPrice)}</p>
                 <p className='text-slate-500 line-through'>{displayLKRCurrency(product?.price)}</p>
               </div>
-              <button className='bg-red-500 hover:bg-red-700 text-white text-sm px-2 py-1 rounded-full'>
+              <button className='bg-red-500 hover:bg-red-700 text-white text-sm px-2 py-1 rounded-full'onClick={(e)=>{
+                addToCart(e,product._id)
+              }}>
                 Add to cart
               </button>
             </div>
