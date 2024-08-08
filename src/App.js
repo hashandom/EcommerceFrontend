@@ -26,6 +26,8 @@ function App() {
     // console.log("user details",dataApi)
   }
 
+  
+
   useEffect(()=>{
     fetchUserDetails();
   },[])
