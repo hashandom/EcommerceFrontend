@@ -30,7 +30,7 @@ const defaultTheme = createTheme();
 const Login = ()=> {
 
   const navigate = useNavigate();
-  const {fetchUserDetails}  = useContext(Context);
+  const {fetchUserDetails,fetchUserAddToCart}  = useContext(Context);
 
   
   // password state change//////////////////////////////////////
@@ -76,6 +76,7 @@ const Login = ()=> {
       toast.success(dataResponse.message)
       navigate("/");
       fetchUserDetails();
+      fetchUserAddToCart();
     }else if(dataResponse.error){
       toast.error(dataResponse.message)
     }

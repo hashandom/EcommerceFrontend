@@ -56,11 +56,30 @@ const summaryApi = {
         method:"post"
     },
     addToCartProductCount:{
-        url : `${backEndDomain}/api/  countAddToCartProduct`,  
+        url : `${backEndDomain}/api/countAddToCartProduct`,  
         method:"get"
     },
-    
-    
+    addToCartProductView:{
+        url : `${backEndDomain}/api/view-cart-product`,  
+        method:"get"
+    },
+    updateCartProduct:{
+        url : `${backEndDomain}/api/update-cart-product`,  
+        method:"post"
+    },
+    deleteCartProduct:{
+        url : `${backEndDomain}/api/delete-cart-product`,  
+        method:"post"
+    },
+    searchProduct:{
+        url : `${backEndDomain}/api/search`,  
+        method:"get"
+    },
+    filterProduct:{
+        url : `${backEndDomain}/api/filter-product`,  
+        method:"post"
+    }
+  
 }
 
 

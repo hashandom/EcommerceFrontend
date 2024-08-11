@@ -116,3 +116,4 @@ const VerticalCardProduct = ({ category, heading }) => {
 };
 
 export default VerticalCardProduct;
+ 

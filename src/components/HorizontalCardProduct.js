@@ -1,15 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import fetchCategoryWiseProduct from '../helper/fetchCategoryWiseProduct';
 import displayLKRCurrency from '../helper/displayCurrency';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import addToCart from '../helper/addToCart';
+import Context from '../context';
 
 const HorizontalCardProduct = ({ category, heading }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const loadingList = new Array(13).fill(null);
     const scrollElement = useRef();
+
+    const{fetchUserAddToCart} = useContext(Context);
+
+    const handleAddToCart = async (e, id) => {
+        e.preventDefault(); // Prevent default action of button click
+        await addToCart(e, id);
+        fetchUserAddToCart();
+    };
 
     const fetchData = async () => {
         setLoading(true);
@@ -102,7 +111,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
                                 </div>
                                 <button
                                     className='px-2 py-1 text-sm text-white bg-red-500 rounded-full hover:bg-red-700'
-                                    onClick={(e) => addToCart(e, product._id)}
+                                    onClick={(e) => handleAddToCart(e, product._id)}
                                 >
                                     Add to cart
                                 </button>

@@ -9,6 +9,8 @@ import AllUsers from '../pages/AllUsers';
 import AllProducts from '../pages/AllProducts';
 import CategoryProduct from '../pages/CategoryProduct';
 import  ProductDetails from '../pages/ProductDetails'
+import Cart from '../pages/Cart';
+import  SearchProduct  from '../pages/SearchProduct'; 
 const router = createBrowserRouter([
   {
     path: "/",
@@ -16,12 +18,14 @@ const router = createBrowserRouter([
     children: [
      
        { path: "", element: <Home/> },
-       { path: "/home", element: <Home/> },
+       { path: "home", element: <Home/> },
       { path: "login", element: <Login /> },
       { path: "forgotpassword", element: <ForgotPassword /> },
       { path: "signup", element: <SignUp /> },
-      { path: "product-category/:categoryName", element: <CategoryProduct/> },
+      { path: "product-category", element: <CategoryProduct/> },
       { path: "product/:id", element: < ProductDetails/> },
+      { path: "cart", element: < Cart/> },
+      { path: "search", element: <SearchProduct/> },
 
       {
         path: "admin-panel",
